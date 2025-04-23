@@ -254,7 +254,7 @@ d3.csv("london_crime_combined_clean.csv").then(data => {
              boroughAvgData.push({ month: m, avg_count: avg || 0 });
          });
 
-
+         // Adding comment for github refresh
          if (boroughAvgData.some(d=>d.avg_count > 0)) { // Check if there's any non-zero avg data
              // Update scales
              lineMonthYScale.domain([0, d3.max(boroughAvgData, d => d.avg_count) * 1.1]); // Add padding
