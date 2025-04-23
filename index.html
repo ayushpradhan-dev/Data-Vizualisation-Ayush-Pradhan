@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>London Crime Seasonality</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>London Crime Seasonality Analysis (2017-2025)</h1>
+
+    <div class="controls">
+        <label for="offence-group-select">Select Offence Group:</label>
+        <select id="offence-group-select"></select>
+    </div>
+
+    <div class="visualization-container">
+        <div class="chart-area" id="heatmap-area">
+            <h2>Average Monthly Crime Intensity by Borough</h2>
+            <div id="heatmap-tooltip" class="tooltip"></div>
+            <svg id="heatmap-container"></svg>
+        </div>
+
+        <div class="chart-area" id="linechart-area">
+            <div id="linechart-year-section">
+                <h2 id="linechart-year-title">Click Heatmap Cell for Yearly Trend</h2>
+                <div id="linechart-year-tooltip" class="tooltip"></div>
+                <svg id="linechart-year-container"></svg>
+            </div>
+            <div id="linechart-month-section">
+                 <h2 id="linechart-month-title">Click Heatmap Cell for Avg. Seasonal Pattern</h2>
+                 <div id="linechart-month-tooltip" class="tooltip"></div>
+                 <svg id="linechart-month-container"></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Load your custom JavaScript -->
+    <script src="main.js"></script>
+</body>
+</html>

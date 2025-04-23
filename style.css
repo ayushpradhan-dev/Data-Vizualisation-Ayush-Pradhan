@@ -1,0 +1,113 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.controls {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    margin-right: 10px;
+}
+
+select {
+    padding: 5px;
+}
+
+.visualization-container {
+    display: flex; /* Arrange heatmap and line charts side-by-side */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens if needed */
+    gap: 20px; /* Space between chart areas */
+    justify-content: center;
+}
+
+.chart-area {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#heatmap-area {
+     width: 60%; /* Adjust width as needed */
+     min-width: 500px;
+}
+
+#linechart-area {
+    width: 35%; /* Adjust width as needed */
+    min-width: 400px;
+    display: flex;
+    flex-direction: column; /* Stack the two line charts */
+    gap: 15px;
+}
+
+
+svg {
+    display: block; /* Helps with positioning */
+    margin: auto; /* Center SVG if container is wider */
+    background-color: #fff;
+    overflow: visible; /* Allow axes labels to extend */
+}
+
+/* Axis Styling */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 10px;
+    fill: #555;
+}
+
+.heatmap-cell {
+    stroke: #eee; /* Light border for cells */
+    stroke-width: 0.5px;
+}
+
+.heatmap-cell:hover {
+    stroke: #000; /* Highlight on hover */
+    stroke-width: 1px;
+}
+
+.heatmap-cell.selected {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+
+/* Line Chart Styling */
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+.linechart-month .line {
+     stroke: firebrick;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    position: absolute; /* Position relative to the page */
+    text-align: center;
+    padding: 8px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.75); /* Semi-transparent black */
+    color: #fff;
+    border-radius: 4px;
+    pointer-events: none; /* Prevent tooltip from blocking mouse events */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s;
+    white-space: pre-line; /* Allow line breaks using \n */
+}
