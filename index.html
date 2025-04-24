@@ -7,33 +7,60 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>London Crime Seasonality Analysis (2017-2025)</h1>
+    <div class="main-container"> <!-- Added main container -->
+        <h1>London Crime Seasonality Analysis (2017-2025)</h1>
 
-    <div class="controls">
-        <label for="offence-group-select">Select Offence Group:</label>
-        <select id="offence-group-select"></select>
-    </div>
-
-    <div class="visualization-container">
-        <div class="chart-area" id="heatmap-area">
-            <h2>Average Monthly Crime Intensity by Borough</h2>
-            <div id="heatmap-tooltip" class="tooltip"></div>
-            <svg id="heatmap-container"></svg>
+        <div class="controls">
+            <label for="offence-group-select">Select Offence Group:</label>
+            <select id="offence-group-select"></select>
         </div>
 
-        <div class="chart-area" id="linechart-area">
-            <div id="linechart-year-section">
-                <h2 id="linechart-year-title">Click Heatmap Cell for Yearly Trend</h2>
-                <div id="linechart-year-tooltip" class="tooltip"></div>
-                <svg id="linechart-year-container"></svg>
+        <div class="visualization-container">
+            <!-- Section for Heatmap and its Legend -->
+            <div class="chart-area" id="heatmap-section">
+                <h2>Average Monthly Crime Intensity by Borough</h2>
+                <div id="heatmap-area"> <!-- Container for SVG -->
+                     <div id="heatmap-tooltip" class="tooltip"></div>
+                     <svg id="heatmap-container"></svg>
+                     <!-- Legend will be appended inside heatmap-container's SVG by JS -->
+                </div>
             </div>
-            <div id="linechart-month-section">
-                 <h2 id="linechart-month-title">Click Heatmap Cell for Avg. Seasonal Pattern</h2>
-                 <div id="linechart-month-tooltip" class="tooltip"></div>
-                 <svg id="linechart-month-container"></svg>
+
+            <!-- Section for Line Charts -->
+            <div class="chart-area" id="linechart-area">
+                <div id="linechart-year-section">
+                    <h2 id="linechart-year-title">Click Heatmap Cell for Yearly Trend</h2>
+                    <div id="brush-info"></div> <!-- For brush output -->
+                    <div id="linechart-year-tooltip" class="tooltip"></div>
+                    <svg id="linechart-year-container"></svg>
+                </div>
+                <div id="linechart-month-section">
+                     <h2 id="linechart-month-title">Click Heatmap Cell for Avg. Seasonal Pattern</h2>
+                     <div id="linechart-month-tooltip" class="tooltip"></div>
+                     <svg id="linechart-month-container"></svg>
+                </div>
             </div>
+        </div> <!-- End visualization-container -->
+
+        <!-- Data Processing Description Section -->
+        <div class="data-info-container">
+            <h2>About the Data & Processing</h2>
+            <p>
+                This visualization displays seasonal crime patterns in London Boroughs from April 2017 to January 2025.
+                The data originates from the Metropolitan Police Service (MPS), accessed via the London Datastore, supplemented by a dataset provided for the 7CCSMSDV module covering Feb 2021 onwards.
+            </p>
+            <p>
+                <strong>Processing:</strong> Multiple historical MPS 'TNOCrimeData' CSV files (financial years 2017/18 to 2020/21) were combined with the module's Excel dataset using a Python script. The combined data was filtered to include only 'Borough' level entries and 'Offences' measures. Columns were standardized (case, naming conventions like '&' vs 'and', mapping 'Aviation Security' variations), dates parsed, counts converted to numeric, and irrelevant columns (like inconsistent Area Codes) dropped. Overlapping time periods were deduplicated. The resulting clean dataset (`london_crime_combined_clean.csv`) is used here.
+            </p>
+             <p>
+                 <strong>Heatmap Intensity:</strong> The color intensity is normalized *within each borough*. This means the color shows the relative crime level for each month compared to that specific borough's own busiest month (for the selected crime type), where 'High' represents the peak month(s) for that borough.
+             </p>
+            <p>
+                <strong>Data Source Acknowledgement:</strong> Contains public sector information licensed under the Open Government Licence v3.0. Original data sourced from the Metropolitan Police Service via <a href="https://data.london.gov.uk/dataset/mps-monthly-crime-dashboard" target="_blank" rel="noopener noreferrer">London Datastore</a>.
+            </p>
         </div>
-    </div>
+
+    </div> <!-- End main container -->
 
     <!-- Load D3.js library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>

@@ -7,6 +7,11 @@ body {
 h1, h2 {
     text-align: center;
     color: #333;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+h2 {
+    font-size: 1.1em;
 }
 
 .controls {
@@ -20,13 +25,25 @@ label {
 
 select {
     padding: 5px;
+    min-width: 200px; /* Give dropdown some width */
+}
+
+/* --- Layout Styling --- */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .visualization-container {
-    display: flex; /* Arrange heatmap and line charts side-by-side */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens if needed */
-    gap: 20px; /* Space between chart areas */
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 25px;
+    width: 98%;
+    max-width: 1800px;
     justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 .chart-area {
@@ -36,25 +53,30 @@ select {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+#heatmap-section {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #heatmap-area {
-     width: 60%; /* Adjust width as needed */
-     min-width: 500px;
+     width: 100%;
 }
 
 #linechart-area {
-    width: 35%; /* Adjust width as needed */
-    min-width: 400px;
+    flex: 3;
     display: flex;
-    flex-direction: column; /* Stack the two line charts */
-    gap: 15px;
+    flex-direction: column;
+    gap: 25px;
 }
+/* --- End Layout Styling --- */
 
 
 svg {
-    display: block; /* Helps with positioning */
-    margin: auto; /* Center SVG if container is wider */
+    display: block;
+    margin: auto;
     background-color: #fff;
-    overflow: visible; /* Allow axes labels to extend */
+    overflow: visible; /* Important for labels/legends outside main area */
 }
 
 /* Axis Styling */
@@ -63,51 +85,178 @@ svg {
     fill: none;
     stroke: #ccc;
     shape-rendering: crispEdges;
+    stroke-width: 1px;
 }
 
 .axis text {
-    font-size: 10px;
+    font-size: 10px; /* Keep small for heatmap */
     fill: #555;
 }
+#linechart-area .axis text {
+    font-size: 11px; /* Slightly larger for line charts */
+}
 
+
+/* Gridline Styling */
+.gridline {
+    stroke: #eee;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+.gridline path {
+    stroke-width: 0; /* Hide domain path for grid */
+}
+
+
+/* Heatmap Styling */
 .heatmap-cell {
-    stroke: #eee; /* Light border for cells */
+    stroke: #fff; /* White border for better separation */
     stroke-width: 0.5px;
+    pointer-events: all; /* Ensure cells capture events */
 }
 
 .heatmap-cell:hover {
-    stroke: #000; /* Highlight on hover */
-    stroke-width: 1px;
+    stroke: #000;
+    stroke-width: 1.5px;
+    cursor: pointer;
 }
 
 .heatmap-cell.selected {
     stroke: #000;
-    stroke-width: 2px;
+    stroke-width: 2.5px;
+}
+
+/* Heatmap Legend Styling */
+.heatmap-legend-group { /* Style the group containing the legend */
+   /* No specific styles needed here now it's positioned by JS */
+}
+.legend-title {
+    font-size: 11px;
+    font-weight: bold;
+    fill: #333;
+    text-anchor: middle;
+}
+.legend-gradient-rect {
+    stroke: #555;
+    stroke-width: 0.5px;
+}
+.legend-axis path,
+.legend-axis line {
+    fill: none;
+    stroke: #555;
+     shape-rendering: crispEdges;
+     stroke-width: 0.5px;
+}
+.legend-axis text {
+    font-size: 10px;
+    fill: #333;
+}
+.legend-label-low,
+.legend-label-high {
+     font-size: 10px;
+     font-weight: bold;
+     fill: #333;
+     dominant-baseline: middle;
+}
+.legend-label-low {
+    text-anchor: start;
+}
+.legend-label-high {
+     text-anchor: end;
 }
 
 
 /* Line Chart Styling */
 .line {
     fill: none;
-    stroke: steelblue;
-    stroke-width: 2px;
+    stroke-width: 1.5px;
 }
 
-.linechart-month .line {
+#linechart-year-container .line {
+     stroke: steelblue;
+}
+
+#linechart-month-container .line {
      stroke: firebrick;
 }
 
+.hover-circle {
+    fill: #ff7f0e;
+    stroke: #fff;
+    stroke-width: 1.5px;
+    pointer-events: none;
+}
+
+.hover-overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+/* Brushing Styling */
+.brush .selection {
+    fill: steelblue;
+    fill-opacity: 0.2;
+    stroke: steelblue;
+    stroke-width: 0.5px;
+}
+#brush-info {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+    min-height: 1.2em;
+    text-align: center;
+}
+
+
 /* Tooltip Styling */
 .tooltip {
-    position: absolute; /* Position relative to the page */
+    position: absolute;
     text-align: center;
     padding: 8px;
     font-size: 12px;
-    background: rgba(0, 0, 0, 0.75); /* Semi-transparent black */
+    background: rgba(0, 0, 0, 0.75);
     color: #fff;
     border-radius: 4px;
-    pointer-events: none; /* Prevent tooltip from blocking mouse events */
-    opacity: 0; /* Hidden by default */
+    pointer-events: none;
+    opacity: 0;
     transition: opacity 0.2s;
-    white-space: pre-line; /* Allow line breaks using \n */
+    white-space: pre-line;
+    z-index: 10;
+}
+
+/* --- Styling for Data Info Section --- */
+.data-info-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 40px;
+    padding: 15px 25px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #444;
+}
+
+.data-info-container h2 {
+    text-align: left;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.data-info-container p {
+    margin-bottom: 10px;
+}
+.data-info-container strong {
+    font-weight: bold;
+    color: #111;
+}
+
+.data-info-container a {
+    color: steelblue;
+    text-decoration: none;
+}
+.data-info-container a:hover {
+    text-decoration: underline;
 }
